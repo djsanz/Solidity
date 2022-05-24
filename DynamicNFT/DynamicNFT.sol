@@ -239,9 +239,9 @@ contract MyToken is ERC721 {
 
     uint256 COUNTER;
 
-    constructor(address BankWallet_) ERC721("https://dynamicnft-api.vercel.app/metadata/97/") {
+    constructor() ERC721("https://dynamicnft-api.vercel.app/metadata/4/") {
         _owner = _msgSender();
-        BankWALLET = payable(BankWallet_);
+        BankWALLET = payable(_owner);
     }
 
     // Funciones BankWallet
