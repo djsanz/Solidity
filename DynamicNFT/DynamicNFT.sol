@@ -99,10 +99,10 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
         return owner;
     }
     function name() public view virtual override returns (string memory) {
-        return "DynamicNFT";
+        return "MyDynamicNFT";
     }
     function symbol() public view virtual override returns (string memory) {
-        return "DynamicNFT";
+        return "MyDynamicNFT";
     }
     function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
         require(_exists(tokenId), "ERC721Metadata: URI query for nonexistent token");
@@ -232,14 +232,14 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     function _afterTokenTransfer(address from, address to, uint256 tokenId) internal virtual {}
 }
 
-contract MyToken is ERC721 {
+contract MyDynamicNFT is ERC721 {
     address private _owner;
     uint256 public COST = 0.01 ether;
     address payable BankWALLET;
 
     uint256 COUNTER;
 
-    constructor() ERC721("https://dynamicnft-api.vercel.app/metadata/4/") {
+    constructor() ERC721("https://api.mydynamicnft.com/metadata/4/") {
         _owner = _msgSender();
         BankWALLET = payable(_owner);
     }
