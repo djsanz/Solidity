@@ -78,9 +78,21 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     mapping(uint256 => address) private _tokenApprovals;
     // Mapping from owner to operator approvals
     mapping(address => mapping(address => bool)) private _operatorApprovals;
+    // Maping con Ids que NO se pueden cambiar el URL
+    mapping(uint256 => bool) private _permanentURI;
 
     constructor(string memory baseUri_) {
         _baseUri = baseUri_;
+    }
+
+    //Editable
+    function setPermanentURI(uint256 tokenId) public {
+        require(ownerOf(tokenId) == msg.sender,"ChangeTokenURI: You have to be the owner of the Token to be able to change the URI");
+        _permanentURI[tokenId] = true;
+    }
+
+    function isPermanentURI(uint256 tokenId) public view virtual returns (bool) {
+        return _permanentURI[tokenId];
     }
 
     function supportsInterface(bytes4 interfaceId) public view virtual override(ERC165, IERC165) returns (bool) {
@@ -274,10 +286,12 @@ contract MyDynamicNFT is ERC721 {
         _setbaseURI(uri);
     }
     function setTokenURI(uint256 tokenId, string memory uri) public onlyOwner {
+        require(isPermanentURI(tokenId) != true,"PermanentURI: UrlUri Not Editable");
         _setTokenURI(tokenId, uri);
     }
     function ChangeTokenURI(uint256 tokenId, string memory uri) public {
         require(ownerOf(tokenId) == msg.sender,"ChangeTokenURI: You have to be the owner of the Token to be able to change the URI");
+        require(isPermanentURI(tokenId) != true,"PermanentURI: UrlUri Not Editable");
         _setTokenURI(tokenId, uri);
     }
 
