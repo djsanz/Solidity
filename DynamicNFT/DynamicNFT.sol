@@ -78,21 +78,9 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     mapping(uint256 => address) private _tokenApprovals;
     // Mapping from owner to operator approvals
     mapping(address => mapping(address => bool)) private _operatorApprovals;
-    // Maping con Ids que NO se pueden cambiar el URL
-    mapping(uint256 => bool) private _permanentURI;
 
     constructor(string memory baseUri_) {
         _baseUri = baseUri_;
-    }
-
-    //Editable
-    function setPermanentURI(uint256 tokenId) public {
-        require(ownerOf(tokenId) == msg.sender,"ChangeTokenURI: You have to be the owner of the Token to be able to change the URI");
-        _permanentURI[tokenId] = true;
-    }
-
-    function isPermanentURI(uint256 tokenId) public view virtual returns (bool) {
-        return _permanentURI[tokenId];
     }
 
     function supportsInterface(bytes4 interfaceId) public view virtual override(ERC165, IERC165) returns (bool) {
@@ -246,10 +234,11 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
 
 contract MyDynamicNFT is ERC721 {
     address private _owner;
-    uint256 public COST = 0.01 ether;
+    uint256 public COST = 0.015 ether;
     address payable BankWALLET;
-
     uint256 COUNTER;
+    // Maping con Ids que NO se pueden cambiar el URL
+    mapping(uint256 => bool) private _permanentURI;
 
     constructor() ERC721("https://api.mydynamicnft.com/metadata/4/") {
         _owner = _msgSender();
@@ -307,6 +296,16 @@ contract MyDynamicNFT is ERC721 {
             }
         }
         return tokenIds;
+    }
+
+    //Editable
+    function setPermanentURI(uint256 tokenId) public {
+        require(ownerOf(tokenId) == msg.sender,"ChangeTokenURI: You have to be the owner of the Token to be able to change the URI");
+        _permanentURI[tokenId] = true;
+    }
+
+    function isPermanentURI(uint256 tokenId) public view virtual returns (bool) {
+        return _permanentURI[tokenId];
     }
 
     //Ownable
