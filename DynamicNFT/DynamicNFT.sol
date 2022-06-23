@@ -79,8 +79,8 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     // Mapping from owner to operator approvals
     mapping(address => mapping(address => bool)) private _operatorApprovals;
 
-    constructor(string memory baseUri_) {
-        _baseUri = baseUri_;
+    constructor() {
+        _baseUri = "https://api.mydynamicnft.com/metadata/4/";
     }
 
     function supportsInterface(bytes4 interfaceId) public view virtual override(ERC165, IERC165) returns (bool) {
@@ -240,7 +240,7 @@ contract MyDynamicNFT is ERC721 {
     // Maping con Ids que NO se pueden cambiar el URL
     mapping(uint256 => bool) private _permanentURI;
 
-    constructor() ERC721("https://api.mydynamicnft.com/metadata/4/") {
+    constructor() ERC721() {
         _owner = _msgSender();
         BankWALLET = payable(_owner);
     }
