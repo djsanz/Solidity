@@ -66,7 +66,7 @@ abstract contract Context {
 contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     using Address for address;
     using Strings for uint256;
-    string private _baseUri;
+    string private _baseUri = "https://api.mydynamicnft.com/metadata/4/";
     // Mapping from token ID to Uri
     mapping(uint256 => string) private _tokenURIs;
 
@@ -80,7 +80,6 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     mapping(address => mapping(address => bool)) private _operatorApprovals;
 
     constructor() {
-        _baseUri = "https://api.mydynamicnft.com/metadata/4/";
     }
 
     function supportsInterface(bytes4 interfaceId) public view virtual override(ERC165, IERC165) returns (bool) {
